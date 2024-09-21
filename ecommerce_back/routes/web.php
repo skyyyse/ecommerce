@@ -1,0 +1,54 @@
+<?php
+
+use App\Http\Controllers\admin\auth_controller;
+use App\Http\Controllers\admin\categories_controller;
+use App\Http\Controllers\admin\dashboard_controller;
+use App\Http\Controllers\admin\order_controller;
+use App\Http\Controllers\admin\products_controller;
+use App\Http\Controllers\admin\script_controller;
+use App\Http\Controllers\admin\slider_controller;
+use App\Http\Controllers\admin\subcategories_controller;
+use App\Http\Controllers\admin\user_controller;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/admin/login', [auth_controller::class, 'login'])->name('page.login');
+Route::get('/admin/register', [auth_controller::class, 'register'])->name('page.register');
+Route::post('/admin/login/server', [auth_controller::class, 'login_server'])->name('server.login');
+Route::post('/admin/register/server', [auth_controller::class, 'register_server'])->name('server.register');
+Route::prefix('admin')->middleware('admin')->group(function () {
+    Route::get('/index', [dashboard_controller::class, 'index'])->name('index');
+    Route::get('/slider/page', [slider_controller::class, 'index'])->name('slider.index');
+    Route::get('/slider/update/page', [slider_controller::class, 'update'])->name('slider.update');
+    Route::get('/slider/create/page', [slider_controller::class, 'create'])->name('slider.create');
+    Route::post('/slider/store', [slider_controller::class, 'store'])->name('slider.store');
+    Route::post('/slider/delete', [slider_controller::class, 'delete'])->name('slider.delete');
+    Route::post('/slider/edit', [slider_controller::class, 'edit'])->name('slider.edit');
+    Route::get('/categoeies/page', [categories_controller::class, 'index'])->name('categories.index');
+    Route::get('/categoeies/store/page', [categories_controller::class, 'page_store'])->name('categories.page.store');
+    Route::post('/categoeies/store', [categories_controller::class, 'store'])->name('categories.store');
+    Route::post('/categoeies/destroy', [categories_controller::class, 'destroy'])->name('categories.destroy');
+    Route::post('/categoeies/update', [categories_controller::class, 'update'])->name('categories.update');
+    Route::get('/subcategories/page', [subcategories_controller::class, 'index'])->name('subcategories.index');
+    Route::get('/subcategories/create', [subcategories_controller::class, 'create'])->name('subcategories.create');
+    Route::post('subcategories/store', [subcategories_controller::class, 'store'])->name('subcategories.store');
+    Route::post('/subcategories/destroy', [subcategories_controller::class, 'destroy'])->name('subcategories.destroy');
+    Route::post('/subcategories/update', [subcategories_controller::class, 'update'])->name('subcategories.update');
+    Route::get('/product',[products_controller::class,'index'])->name('product.index');
+    Route::get('/product/store/page', [products_controller::class,'store_page'])->name('product.page.store');
+    Route::post('/product/store', [products_controller::class,'store'])->name('product.store');
+    Route::post('/product/destroy',[products_controller::class,'destroy'])->name('product.destroy');
+    Route::get('/product/destroy/image',[products_controller::class,'image_destroy'])->name('image.destroy');
+    Route::post('/product/update',[products_controller::class,'update'])->name('product.update');
+    Route::get('/order/page',[order_controller::class,'index'])->name('order.index');
+    Route::get('/order/item',[order_controller::class,'item'])->name('order.item');
+    Route::get('/user',[user_controller::class,'index'])->name('user.index');
+    Route::get('/user/store/page',[user_controller::class,'store_page'])->name('user.page.create');
+    Route::post('/user/store',[user_controller::class,'store'])->name('user.store');
+    Route::post('/user/update',[user_controller::class,'update'])->name('user.update');
+    Route::post('/user/delete',[user_controller::class,'delete'])->name('user.delete');
+    Route::get('/slider/{id}',[script_controller::class,'slider'])->name('script.slider');
+    Route::get('/categories/{id}',[script_controller::class,'categories'])->name('script.categories');
+    Route::get('/subcategories/{id}',[script_controller::class,'subcategories'])->name('script.subcategories');
+    Route::get('/product/{id}',[script_controller::class,'product'])->name('script.product');
+    Route::get('/user/{id}',[script_controller::class,'user'])->name('script.user');
+});
